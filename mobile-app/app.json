@@ -1,0 +1,21 @@
+{
+  "expo": {
+    "name": "Hayvan Beslenme Uzmanı",
+    "slug": "animal-nutrition-chat",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "platforms": ["ios", "android", "web"],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "permissions": [
+        "android.permission.INTERNET"
+      ]
+    },
+    "web": {
+      "bundler": "metro"
+    }
+  }
+} 

@@ -1,0 +1,39 @@
+{
+  "name": "animalapp",
+  "version": "1.0.0",
+  "description": "Hayvan beslenme bilgilerini döndüren MCP servisi",
+  "main": "src/api-server.ts",
+  "scripts": {
+    "start": "npx tsx src/api-server.ts",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "mastra dev",
+    "build": "mastra build",
+    "mcp-server": "npx tsx src/mcp-server.ts",
+    "api-server": "npx tsx src/api-server.ts",
+    "test-nutrition": "npx tsx src/test-animal-nutrition.ts",
+    "demo": "npx tsx src/demo.ts"
+  },
+  "keywords": ["mcp", "animals", "nutrition", "api-ninjas", "gemini"],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "engines": {
+    "node": ">=20.9.0"
+  },
+  "dependencies": {
+    "@ai-sdk/google": "^1.2.18",
+    "@google/genai": "^7.0.0",
+    "@mastra/core": "^0.10.1",
+    "@mastra/libsql": "^0.10.0",
+    "@mastra/memory": "^0.10.1",
+    "@modelcontextprotocol/sdk": "^1.0.4",
+    "ai": "^4.0.36",
+    "zod": "^3.25.32",
+    "tsx": "^4.7.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.23",
+    "mastra": "^0.10.1",
+    "typescript": "^5.8.3"
+  }
+}

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🐾 Animal Nutrition API</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .search-section {
+            margin-bottom: 30px;
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        input[type="text"] {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+        
+        button {
+            padding: 15px 30px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        button:hover {
+            background: #45a049;
+        }
+        
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .examples {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .example-btn {
+            padding: 8px 16px;
+            background: #f0f0f0;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .example-btn:hover {
+            background: #4CAF50;
+            color: white;
+            border-color: #4CAF50;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+        
+        .result {
+            background: #f9f9f9;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .result h3 {
+            color: #4CAF50;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+        
+        .result-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .info-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #4CAF50;
+        }
+        
+        .info-card h4 {
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .diet-info {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+        
+        .error {
+            background: #ffebee;
+            color: #c62828;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #c62828;
+        }
+        
+        .footer {
+            background: #f5f5f5;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🐾 Animal Nutrition API</h1>
+            <p>Hayvanların beslenme alışkanlıklarını keşfedin</p>
+        </div>
+        
+        <div class="content">
+            <div class="search-section">
+                <div class="search-box">
+                    <input type="text" id="animalInput" placeholder="Hayvan adını girin (örn: aslan, fil, kartal...)" />
+                    <button onclick="searchAnimal()" id="searchBtn">🔍 Ara</button>
+                </div>
+                
+                <div class="examples">
+                    <span style="margin-right: 10px; color: #666;">Örnekler:</span>
+                    <div class="example-btn" onclick="setAnimal('aslan')">🦁 Aslan</div>
+                    <div class="example-btn" onclick="setAnimal('fil')">🐘 Fil</div>
+                    <div class="example-btn" onclick="setAnimal('kartal')">🦅 Kartal</div>
+                    <div class="example-btn" onclick="setAnimal('köpek')">🐕 Köpek</div>
+                    <div class="example-btn" onclick="setAnimal('kedi')">🐱 Kedi</div>
+                    <div class="example-btn" onclick="setAnimal('balık')">🐟 Balık</div>
+                </div>
+            </div>
+            
+            <div id="loading" class="loading" style="display: none;">
+                <p>🔄 Beslenme bilgileri alınıyor...</p>
+            </div>
+            
+            <div id="result" style="display: none;"></div>
+        </div>
+        
+        <div class="footer">
+            <p>API Ninjas + Google Gemini AI ile güçlendirilmiştir</p>
+        </div>
+    </div>
+
+    <script>
+        function setAnimal(animal) {
+            document.getElementById('animalInput').value = animal;
+            searchAnimal();
+        }
+        
+        async function searchAnimal() {
+            const animalName = document.getElementById('animalInput').value.trim();
+            if (!animalName) {
+                alert('Lütfen bir hayvan adı girin!');
+                return;
+            }
+            
+            const loadingDiv = document.getElementById('loading');
+            const resultDiv = document.getElementById('result');
+            const searchBtn = document.getElementById('searchBtn');
+            
+            // UI durumunu güncelle
+            loadingDiv.style.display = 'block';
+            resultDiv.style.display = 'none';
+            searchBtn.disabled = true;
+            searchBtn.textContent = '⏳ Arıyor...';
+            
+            try {
+                const response = await fetch(`/animal-nutrition?animal=${encodeURIComponent(animalName)}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    showResult(data);
+                } else {
+                    showError(data.error || 'Bilinmeyen hata oluştu');
+                }
+            } catch (error) {
+                showError('Bağlantı hatası: ' + error.message);
+            } finally {
+                loadingDiv.style.display = 'none';
+                searchBtn.disabled = false;
+                searchBtn.textContent = '🔍 Ara';
+            }
+        }
+        
+        function showResult(data) {
+            const resultDiv = document.getElementById('result');
+            const hasApiData = data.apiNinjasData && data.apiNinjasData.length > 0;
+            
+            resultDiv.innerHTML = `
+                <div class="result">
+                    <h3>🐾 ${data.animal.toUpperCase()} - Beslenme Bilgileri</h3>
+                    
+                    <div class="result-info">
+                        <div class="info-card">
+                            <h4>📊 API Ninjas</h4>
+                            <p>${hasApiData ? '✅ Veri bulundu' : '❌ Veri bulunamadı'}</p>
+                        </div>
+                        <div class="info-card">
+                            <h4>🤖 Gemini AI</h4>
+                            <p>✅ Analiz tamamlandı</p>
+                        </div>
+                        <div class="info-card">
+                            <h4>⏰ Zaman</h4>
+                            <p>${new Date(data.timestamp).toLocaleString('tr-TR')}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="diet-info">
+                        ${data.dietInformation}
+                    </div>
+                </div>
+            `;
+            
+            resultDiv.style.display = 'block';
+        }
+        
+        function showError(message) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `
+                <div class="error">
+                    <h4>❌ Hata</h4>
+                    <p>${message}</p>
+                </div>
+            `;
+            resultDiv.style.display = 'block';
+        }
+        
+        // Enter tuşu ile arama
+        document.getElementById('animalInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchAnimal();
+            }
+        });
+    </script>
+</body>
+</html> 

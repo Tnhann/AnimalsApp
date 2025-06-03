@@ -8,6 +8,9 @@ import {
   ScrollView,
   Alert,
   ActivityIndicator,
+  KeyboardAvoidingView,
+  Platform,
+  SafeAreaView,
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 
@@ -23,7 +26,7 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(false);
 
   // API server URL'i - ngrok ile dışarıya açık
-  const API_URL = 'https://edd9-176-30-250-125.ngrok-free.app';
+  const API_URL = 'https://8a5f-176-220-37-17.ngrok-free.app';
 
   const sendMessage = async () => {
     if (!inputText.trim()) return;
@@ -41,7 +44,9 @@ export default function App() {
 
     try {
       const response = await fetch(`${API_URL}/animal-nutrition?animal=${encodeURIComponent(currentInput)}`);
-      const data = await response.json();
+      const text = await response.text();
+      console.log('API yanıtı:', text);
+      const data = JSON.parse(text);
 
       let botResponse;
       if (data.success) {
@@ -75,7 +80,12 @@ export default function App() {
   const quickAnimals = ['aslan', 'fil', 'kartal', 'köpek', 'kedi'];
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 1}
+    >
+      <SafeAreaView style={{ flex: 0, backgroundColor: '#4CAF50' }} />
       <StatusBar style="light" />
       
       {/* Header */}
@@ -145,7 +155,7 @@ export default function App() {
           <Text style={styles.sendButtonText}>Gönder</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -251,16 +261,16 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ddd',
     borderRadius: 25,
-    paddingHorizontal: 15,
-    paddingVertical: 12,
-    fontSize: 16,
+    paddingHorizontal: 18,
+    paddingVertical: 10,
+    fontSize: 17,
     backgroundColor: '#f9f9f9',
-    marginRight: 10,
+    marginRight: 12,
   },
   sendButton: {
     backgroundColor: '#4CAF50',
-    paddingHorizontal: 20,
-    paddingVertical: 12,
+    paddingHorizontal: 24,
+    paddingVertical: 15,
     borderRadius: 25,
   },
   sendButtonDisabled: {

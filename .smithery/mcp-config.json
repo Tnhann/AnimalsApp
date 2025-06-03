@@ -1,0 +1,121 @@
+{
+  "name": "animalsapp",
+  "version": "1.0.0",
+  "description": "Hayvan beslenme bilgileri API servisi - API Ninjas ve Gemini AI entegrasyonu",
+  "author": "Tnhann",
+  "homepage": "https://smithery.ai/server/@Tnhann/animalsapp",
+  
+  "mcp": {
+    "server": {
+      "name": "Animal Nutrition Expert",
+      "description": "Hayvanların beslenme alışkanlıkları hakkında detaylı bilgi sağlayan MCP server",
+      "version": "1.0.0",
+      "entrypoint": "src/mcp-server.ts"
+    },
+    
+    "tools": [
+      {
+        "name": "get_animal_nutrition",
+        "description": "Hayvanların beslenme alışkanlıkları hakkında detaylı bilgi alın. API Ninjas ve Gemini AI kullanarak 3-5 besin örneği ve beslenme türü bilgisi döndürür.",
+        "category": "data-retrieval",
+        "tags": ["animals", "nutrition", "ai", "gemini", "api-ninjas"],
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "animalName": {
+              "type": "string",
+              "description": "Beslenme bilgisi istenen hayvanın adı (Türkçe veya İngilizce)",
+              "examples": ["aslan", "fil", "kartal", "lion", "elephant", "eagle"]
+            }
+          },
+          "required": ["animalName"]
+        },
+        "outputSchema": {
+          "type": "object",
+          "properties": {
+            "success": {"type": "boolean"},
+            "animal": {"type": "string"},
+            "apiNinjasData": {"type": "array"},
+            "dietInformation": {"type": "string"},
+            "timestamp": {"type": "string"}
+          }
+        }
+      },
+      {
+        "name": "get_animal_info",
+        "description": "API Ninjas'dan hayvan bilgilerini alır",
+        "category": "data-retrieval", 
+        "tags": ["animals", "api-ninjas", "information"],
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Bilgi alınacak hayvanın adı",
+              "examples": ["lion", "elephant", "eagle", "dog", "cat"]
+            }
+          },
+          "required": ["name"]
+        },
+        "outputSchema": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {"type": "string"},
+              "taxonomy": {"type": "object"},
+              "locations": {"type": "array"},
+              "characteristics": {"type": "object"}
+            }
+          }
+        }
+      }
+    ],
+    
+    "capabilities": {
+      "tools": true,
+      "resources": false,
+      "prompts": false
+    },
+    
+    "runtime": {
+      "node": ">=20.9.0",
+      "dependencies": {
+        "@modelcontextprotocol/sdk": "^1.0.4",
+        "@google/genai": "^7.0.0",
+        "zod": "^3.25.32"
+      }
+    }
+  },
+  
+  "deployment": {
+    "platform": "smithery",
+    "region": "us-east-1",
+    "scaling": {
+      "minInstances": 1,
+      "maxInstances": 3,
+      "autoScale": true
+    },
+    "resources": {
+      "memory": "512MB",
+      "cpu": "0.5"
+    },
+    "environment": {
+      "NODE_ENV": "production",
+      "API_NINJAS_KEY": "MO4Qd0JdxtRIQ9cj5murew==stsMfqD9V4LHGnuM",
+      "GEMINI_API_KEY": "AIzaSyBeJ1ZnxnZkgt6kfBP3wOoIioCBz8QobPk"
+    }
+  },
+  
+  "monitoring": {
+    "enabled": true,
+    "healthCheck": {
+      "enabled": true,
+      "interval": 30
+    },
+    "logging": {
+      "level": "info",
+      "format": "json"
+    }
+  }
+} 

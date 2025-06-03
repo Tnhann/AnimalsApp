@@ -1,0 +1,64 @@
+name: animalsapp
+description: "Hayvan beslenme bilgileri API servisi - API Ninjas ve Gemini AI entegrasyonu ile MCP uyumlu"
+version: "1.0.0"
+
+# MCP Server Configuration
+mcp:
+  server:
+    name: "Animal Nutrition Expert"
+    version: "1.0.0"
+    description: "Hayvanların beslenme alışkanlıkları hakkında detaylı bilgi sağlayan MCP server"
+    
+  tools:
+    - name: "get_animal_nutrition"
+      description: "Hayvanların beslenme alışkanlıkları hakkında detaylı bilgi alın. API Ninjas ve Gemini AI kullanarak 3-5 besin örneği ve beslenme türü bilgisi döndürür."
+      inputSchema:
+        type: "object"
+        properties:
+          animalName:
+            type: "string"
+            description: "Beslenme bilgisi istenen hayvanın adı (Türkçe veya İngilizce)"
+        required: ["animalName"]
+      
+    - name: "get_animal_info"
+      description: "API Ninjas'dan hayvan bilgilerini alır"
+      inputSchema:
+        type: "object"
+        properties:
+          name:
+            type: "string"
+            description: "Bilgi alınacak hayvanın adı"
+        required: ["name"]
+
+# Deployment Configuration
+deployment:
+  runtime: "node"
+  buildCommand: "npm install"
+  startCommand: "npm run mcp-server"
+  healthCheck:
+    path: "/health"
+    timeout: 30
+  
+  environment:
+    NODE_ENV: "production"
+    PORT: "3000"
+    API_NINJAS_KEY: "MO4Qd0JdxtRIQ9cj5murew==stsMfqD9V4LHGnuM"
+    GEMINI_API_KEY: "AIzaSyBeJ1ZnxnZkgt6kfBP3wOoIioCBz8QobPk"
+
+# Scaling Configuration
+scaling:
+  minInstances: 1
+  maxInstances: 3
+  autoScale: true
+
+# Resources
+resources:
+  memory: "512MB"
+  cpu: "0.5"
+
+# Monitoring
+monitoring:
+  enabled: true
+  alerts:
+    email: true
+    webhook: false 

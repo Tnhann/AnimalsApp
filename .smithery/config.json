@@ -1,0 +1,13 @@
+{
+  "apiKey": "bc94d9ad-ca49-4ff5-a3b5-6fe603c32c2e",
+  "projectId": "animal-nutrition-api",
+  "region": "us-east-1",
+  "autoScale": true,
+  "monitoring": {
+    "enabled": true,
+    "alerts": {
+      "email": true,
+      "webhook": false
+    }
+  }
+} 

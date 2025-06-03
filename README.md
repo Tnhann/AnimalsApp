@@ -2,6 +2,8 @@
 
 Hayvanların beslenme alışkanlıkları hakkında detaylı bilgi sağlayan çok amaçlı servis. Web API, MCP server ve mobil uygulama desteği sunar.
 
+**🚀 Smithery MCP Server:** `https://smithery.ai/server/@Tnhann/animalsapp`
+
 ## 🌟 Özellikler
 
 - **API Ninjas Integration**: Hayvan bilgilerini API Ninjas Animals API'den alır
@@ -12,6 +14,7 @@ Hayvanların beslenme alışkanlıkları hakkında detaylı bilgi sağlayan çok
 - **REST API**: HTTP GET endpoint'i
 - **MCP Uyumlu**: Model Context Protocol standardına uygun
 - **📱 Mobil Uygulama**: Expo Go ile çalışan React Native uygulaması
+- **🚀 Smithery MCP Server**: Production-ready MCP server deployment
 
 ## 🚀 Kurulum
 
@@ -23,6 +26,7 @@ npm install
 2. **API Anahtarları:**
    - API Ninjas API Key: `MO4Qd0JdxtRIQ9cj5murew==stsMfqD9V4LHGnuM`
    - Gemini API Key: `AIzaSyBeJ1ZnxnZkgt6kfBP3wOoIioCBz8QobPk`
+   - Smithery API Key: `bc94d9ad-ca49-4ff5-a3b5-6fe603c32c2e`
 
 ## 🔧 Kullanım
 
@@ -34,7 +38,26 @@ npm run api-server
 
 Tarayıcınızda `http://localhost:3000` adresini açın. Güzel bir web arayüzü ile hayvan beslenme bilgilerini sorgulayabilirsiniz.
 
-### 📱 Mobil Uygulama (YENİ!)
+### 🔌 Smithery MCP Server (YENİ!)
+
+**Server URL:** `https://smithery.ai/server/@Tnhann/animalsapp`
+
+**Mevcut Tools:**
+- `get_animal_nutrition` - Hayvan beslenme bilgileri
+- `get_animal_info` - API Ninjas hayvan bilgileri
+
+**Claude Desktop ile Kullanım:**
+1. Claude Desktop'ta Settings > MCP Servers
+2. Add Server: `https://smithery.ai/server/@Tnhann/animalsapp`
+3. API Key: `bc94d9ad-ca49-4ff5-a3b5-6fe603c32c2e`
+4. Tools'u aktifleştirin
+
+**Örnek Kullanım:**
+```
+Claude'a şunu sorun: "get_animal_nutrition tool'unu kullanarak aslan hakkında beslenme bilgisi al"
+```
+
+### 📱 Mobil Uygulama
 
 ```bash
 cd mobile-app
@@ -50,6 +73,14 @@ Expo Go uygulaması ile QR kodu tarayarak mobil uygulamayı kullanabilirsiniz.
 - 📱 iOS ve Android desteği
 - 🔄 Gerçek zamanlı API iletişimi
 
+### 🚀 Local MCP Server
+
+```bash
+npm run mcp-server
+```
+
+Local MCP server'ı başlatır. Claude Desktop veya diğer MCP client'lar ile kullanabilirsiniz.
+
 ### 📊 Demo Çalıştırma
 
 ```bash
@@ -57,12 +88,6 @@ npm run demo
 ```
 
 Bu komut 5 farklı hayvan (aslan, fil, kartal, köpek, kedi) için beslenme bilgilerini gösterir.
-
-### 🔌 MCP Server
-
-```bash
-npm run mcp-server
-```
 
 ### 🧪 Test Etme
 
@@ -76,17 +101,25 @@ npm run test-nutrition
 
 **GET** `/animal-nutrition?animal={hayvan_adı}`
 
-**Örnek:**
+**Örnek (Local):**
 ```bash
 curl "http://localhost:3000/animal-nutrition?animal=aslan"
 ```
 
-### MCP Tool: `get_animal_nutrition`
+### Smithery MCP Tools
+
+#### 1. get_animal_nutrition
+
+**Açıklama:** Hayvanların beslenme alışkanlıkları hakkında detaylı bilgi alın.
 
 **Parametreler:**
-- `animalName` (string): Beslenme bilgisi istenen hayvanın adı (Türkçe veya İngilizce)
+```json
+{
+  "animalName": "string" // Türkçe veya İngilizce hayvan adı
+}
+```
 
-**Örnek Kullanım:**
+**Örnek:**
 ```json
 {
   "name": "get_animal_nutrition",
@@ -96,14 +129,24 @@ curl "http://localhost:3000/animal-nutrition?animal=aslan"
 }
 ```
 
-**Örnek Yanıt:**
+#### 2. get_animal_info
+
+**Açıklama:** API Ninjas'dan hayvan bilgilerini alır.
+
+**Parametreler:**
 ```json
 {
-  "success": true,
-  "animal": "aslan",
-  "apiNinjasData": [...],
-  "dietInformation": "Aslan adı verilen bir hayvan türü yok. Muhtemelen aslan (Panthera leo) kastediliyor...",
-  "timestamp": "2025-05-28T12:00:28.274Z"
+  "name": "string" // İngilizce hayvan adı
+}
+```
+
+**Örnek:**
+```json
+{
+  "name": "get_animal_info", 
+  "arguments": {
+    "name": "lion"
+  }
 }
 ```
 
@@ -119,6 +162,7 @@ curl "http://localhost:3000/animal-nutrition?animal=aslan"
 - **Native HTTP**: Lightweight web server
 - **React Native**: Mobil uygulama framework
 - **Expo**: Mobil geliştirme platformu
+- **Smithery**: MCP server hosting platform
 
 ### Proje Yapısı
 
@@ -139,11 +183,32 @@ AnimalApp/
 │   ├── App.js                         # Ana mobil uygulama
 │   ├── package.json                   # Mobil bağımlılıklar
 │   └── README.md                      # Mobil uygulama kılavuzu
+├── .smithery/                         # 🚀 Smithery config
+│   ├── config.json                    # Smithery konfigürasyonu
+│   ├── mcp-config.json               # MCP server konfigürasyonu
+│   └── deploy.yml                     # Deployment workflow
+├── smithery.json                      # Smithery deployment config
+├── smithery.yaml                      # Smithery MCP config
 ├── package.json
 └── README.md
 ```
 
 ## 🔍 Örnekler
+
+### Smithery MCP Server Kullanımı
+
+1. **Claude Desktop'ta:**
+   - Settings > MCP Servers
+   - Add: `https://smithery.ai/server/@Tnhann/animalsapp`
+   - API Key: `bc94d9ad-ca49-4ff5-a3b5-6fe603c32c2e`
+
+2. **Cursor'da:**
+   - Extensions > MCP
+   - Add Server: `@Tnhann/animalsapp`
+
+3. **VS Code'da:**
+   - MCP Extension yükleyin
+   - Server ekleyin: `https://smithery.ai/server/@Tnhann/animalsapp`
 
 ### Web Interface
 
@@ -175,23 +240,21 @@ Bu komut şu hayvanlar için beslenme bilgilerini gösterir:
 ### REST API Kullanımı
 
 ```bash
-# Aslan için
+# Local development
 curl "http://localhost:3000/animal-nutrition?animal=aslan"
-
-# Fil için
-curl "http://localhost:3000/animal-nutrition?animal=fil"
-
-# Health check
 curl "http://localhost:3000/health"
 ```
 
 ### MCP Client ile Kullanım
 
-MCP client'ınızda bu server'ı kullanmak için:
-
+**Local MCP Server:**
 1. Server'ı başlatın: `npm run mcp-server`
-2. MCP client'ınızda `get_animal_nutrition` tool'unu kullanın
-3. Hayvan adını parametre olarak gönderin
+2. MCP client'ınızda tools'u kullanın
+
+**Smithery MCP Server:**
+1. URL: `https://smithery.ai/server/@Tnhann/animalsapp`
+2. API Key: `bc94d9ad-ca49-4ff5-a3b5-6fe603c32c2e`
+3. Tools: `get_animal_nutrition`, `get_animal_info`
 
 ## 🎯 Desteklenen Hayvanlar
 
@@ -202,12 +265,21 @@ Sistem herhangi bir hayvan adını kabul eder. Örnekler:
 ## 📜 Mevcut Script'ler
 
 ```bash
+# Development
 npm run api-server      # Web interface + REST API
-npm run mcp-server      # MCP server
+npm run mcp-server      # Local MCP server
+npm run mcp             # Local MCP server (alias)
 npm run demo           # Demo çalıştırma
 npm run test-nutrition # Test etme
 npm run dev            # Mastra development
 npm run build          # Mastra build
+
+# Smithery Deployment
+npm run smithery:deploy    # Deploy to Smithery
+npm run smithery:mcp       # Deploy MCP server
+npm run smithery:status    # Check deployment status
+npm run smithery:logs      # View real-time logs
+npm run smithery:rollback  # Rollback to previous version
 
 # Mobil uygulama (mobile-app/ dizininde)
 cd mobile-app
@@ -230,31 +302,45 @@ npm install
 npm start
 ```
 
-3. **Telefonunuzda test edin:**
-   - Expo Go uygulamasını indirin
-   - QR kodu tarayın
-   - Chat arayüzünü kullanın
+3. **Production API URL'ini güncelleyin:**
+```javascript
+// mobile-app/App.js dosyasında
+const API_URL = 'https://smithery.ai/server/@Tnhann/animalsapp';
+```
 
-## 🤝 Katkıda Bulunma
+## 🌐 Deployment Seçenekleri
 
-1. Fork edin
-2. Feature branch oluşturun (`git checkout -b feature/amazing-feature`)
-3. Commit edin (`git commit -m 'Add some amazing feature'`)
-4. Push edin (`git push origin feature/amazing-feature`)
-5. Pull Request oluşturun
+1. **Smithery MCP (Önerilen)**: Production-ready MCP server
+2. **Railway**: Hızlı deployment
+3. **Vercel**: Serverless deployment
+4. **Heroku**: Geleneksel PaaS
+5. **Docker**: Container deployment
 
-## 📄 Lisans
+Detaylı deployment talimatları için `DEPLOYMENT.md` dosyasına bakın.
 
-Bu proje ISC lisansı altında lisanslanmıştır.
+## 🔧 Environment Variables
+
+```env
+NODE_ENV=production
+PORT=3000
+SMITHERY_API_KEY=bc94d9ad-ca49-4ff5-a3b5-6fe603c32c2e
+API_NINJAS_KEY=MO4Qd0JdxtRIQ9cj5murew==stsMfqD9V4LHGnuM
+GEMINI_API_KEY=AIzaSyBeJ1ZnxnZkgt6kfBP3wOoIioCBz8QobPk
+```
+
+## 📊 Monitoring & Analytics
+
+Smithery dashboard'da şunları izleyebilirsiniz:
+- MCP tool usage metrikleri
+- Request/Response times
+- Error rates ve success rates
+- API call statistics
+- Real-time logs
 
 ## 🔗 Bağlantılar
 
-- [API Ninjas](https://api-ninjas.com)
-- [Google Gemini AI](https://ai.google.dev)
-- [Model Context Protocol](https://modelcontextprotocol.io)
-- [Expo](https://expo.dev)
-- [React Native](https://reactnative.dev)
-
----
-
-**Not**: Bu proje eğitim amaçlı geliştirilmiştir. Production kullanımı için API anahtarlarını environment variables olarak ayarlamanız önerilir. 
+- **Smithery MCP Server**: https://smithery.ai/server/@Tnhann/animalsapp
+- **API Ninjas**: https://api-ninjas.com
+- **Google Gemini AI**: https://ai.google.dev
+- **Model Context Protocol**: https://modelcontextprotocol.io
+- **Smithery Platform**: https://smithery.ai 

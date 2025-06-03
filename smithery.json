@@ -1,0 +1,27 @@
+{
+  "name": "animal-nutrition-api",
+  "description": "Hayvan beslenme bilgileri API servisi - API Ninjas ve Gemini AI entegrasyonu",
+  "version": "1.0.0",
+  "runtime": "node",
+  "buildCommand": "npm install",
+  "startCommand": "npm start",
+  "healthCheck": {
+    "path": "/health",
+    "timeout": 30
+  },
+  "environment": {
+    "NODE_ENV": "production",
+    "PORT": "3000"
+  },
+  "domains": [
+    "animal-nutrition-api.smithery.app"
+  ],
+  "scaling": {
+    "minInstances": 1,
+    "maxInstances": 3
+  },
+  "resources": {
+    "memory": "512MB",
+    "cpu": "0.5"
+  }
+} 

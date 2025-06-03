@@ -1,20 +1,26 @@
 {
   "name": "animalapp",
   "version": "1.0.0",
-  "description": "Hayvan beslenme bilgilerini döndüren MCP servisi",
-  "main": "src/api-server.ts",
+  "description": "Hayvan beslenme bilgilerini döndüren MCP servisi - Smithery uyumlu",
+  "main": "src/mcp-server.ts",
   "scripts": {
     "start": "npx tsx src/api-server.ts",
+    "mcp": "npx tsx src/mcp-server.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "mastra dev",
     "build": "mastra build",
     "mcp-server": "npx tsx src/mcp-server.ts",
     "api-server": "npx tsx src/api-server.ts",
     "test-nutrition": "npx tsx src/test-animal-nutrition.ts",
-    "demo": "npx tsx src/demo.ts"
+    "demo": "npx tsx src/demo.ts",
+    "smithery:deploy": "smithery deploy",
+    "smithery:status": "smithery status",
+    "smithery:logs": "smithery logs --follow",
+    "smithery:rollback": "smithery rollback --version previous",
+    "smithery:mcp": "smithery mcp deploy"
   },
-  "keywords": ["mcp", "animals", "nutrition", "api-ninjas", "gemini"],
-  "author": "",
+  "keywords": ["mcp", "animals", "nutrition", "api-ninjas", "gemini", "smithery", "model-context-protocol"],
+  "author": "Tnhann",
   "license": "ISC",
   "type": "module",
   "engines": {
@@ -35,5 +41,14 @@
     "@types/node": "^22.15.23",
     "mastra": "^0.10.1",
     "typescript": "^5.8.3"
+  },
+  "smithery": {
+    "name": "animalsapp",
+    "description": "Hayvan beslenme bilgileri API servisi - MCP uyumlu",
+    "version": "1.0.0",
+    "mcp": {
+      "server": "src/mcp-server.ts",
+      "tools": ["get_animal_nutrition", "get_animal_info"]
+    }
   }
 }

@@ -8,7 +8,7 @@
 npm install -g @smithery/cli
 
 # 2. Login (API Key ile)
-smithery auth login --api-key bc94d9ad-ca49-4ff5-a3b5-6fe603c32c2e
+smithery auth login --api-key "YOUR_API_KEY"
 
 # 3. Deploy et
 smithery deploy

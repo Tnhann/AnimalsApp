@@ -42,8 +42,8 @@ deployment:
   environment:
     NODE_ENV: "production"
     PORT: "3000"
-    API_NINJAS_KEY: "MO4Qd0JdxtRIQ9cj5murew==stsMfqD9V4LHGnuM"
-    GEMINI_API_KEY: "AIzaSyBeJ1ZnxnZkgt6kfBP3wOoIioCBz8QobPk"
+    API_NINJAS_KEY: "YOUR_API_KEY"
+    GEMINI_API_KEY: "YOUR_API_KEY"
 
 # Scaling Configuration
 scaling:

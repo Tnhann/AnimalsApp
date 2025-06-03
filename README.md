@@ -14,6 +14,10 @@ Hayvanların beslenme alışkanlıkları hakkında detaylı bilgi sağlayan çok
 - **REST API**: HTTP GET endpoint'i
 - **MCP Uyumlu**: Model Context Protocol standardına uygun
 - **📱 Mobil Uygulama**: Expo Go ile çalışan React Native uygulaması
+  - 💬 WhatsApp benzeri sohbet arayüzü
+  - 🌈 Hamburger menü sistemi (tab bar yerine)
+  - ⌨️ Klavye uyumlu tasarım
+  - 🐾 Hayvan kategorileri
 - **🚀 Smithery MCP Server**: Production-ready MCP server deployment
 
 ## 🚀 Kurulum
@@ -24,9 +28,14 @@ npm install
 ```
 
 2. **API Anahtarları:**
-   - API Ninjas API Key: `MO4Qd0JdxtRIQ9cj5murew==stsMfqD9V4LHGnuM`
-   - Gemini API Key: `AIzaSyBeJ1ZnxnZkgt6kfBP3wOoIioCBz8QobPk`
-   - Smithery API Key: `bc94d9ad-ca49-4ff5-a3b5-6fe603c32c2e`
+   - API anahtarlarınızı `.env` dosyasına ekleyin:
+
+```
+# .env dosyası
+API_NINJAS_KEY=your_api_ninjas_key
+GEMINI_API_KEY=your_gemini_api_key
+SMITHERY_API_KEY=your_smithery_api_key
+```
 
 ## 🔧 Kullanım
 
@@ -49,7 +58,7 @@ Tarayıcınızda `http://localhost:3000` adresini açın. Güzel bir web arayüz
 **Claude Desktop ile Kullanım:**
 1. Claude Desktop'ta Settings > MCP Servers
 2. Add Server: `https://smithery.ai/server/@Tnhann/animalsapp`
-3. API Key: `bc94d9ad-ca49-4ff5-a3b5-6fe603c32c2e`
+3. API Key: API anahtarınızı .env dosyasından alın
 4. Tools'u aktifleştirin
 
 **Örnek Kullanım:**
@@ -72,6 +81,8 @@ Expo Go uygulaması ile QR kodu tarayarak mobil uygulamayı kullanabilirsiniz.
 - 🚀 Hızlı soru butonları
 - 📱 iOS ve Android desteği
 - 🔄 Gerçek zamanlı API iletişimi
+- 🌈 Tab bar yerine hamburger menü sistemi
+- ⌨️ Klavye açıldığında mesajların görünmesini sağlayan geliştirmeler
 
 ### 🚀 Local MCP Server
 
@@ -181,12 +192,19 @@ AnimalApp/
 │   └── index.html                     # Web interface
 ├── mobile-app/                        # 📱 Mobil uygulama
 │   ├── App.js                         # Ana mobil uygulama
+│   ├── screens/                       # Ekranlar klasörü
+│   │   ├── home/                      # Ana sayfa/chat ekranı
+│   │   ├── search/                    # Arama ekranı  
+│   │   ├── favorites/                 # Favoriler ekranı
+│   │   ├── details/                   # Hayvan detay ekranı
+│   │   └── splash/                    # Açılış ekranı
 │   ├── package.json                   # Mobil bağımlılıklar
 │   └── README.md                      # Mobil uygulama kılavuzu
 ├── .smithery/                         # 🚀 Smithery config
 │   ├── config.json                    # Smithery konfigürasyonu
 │   ├── mcp-config.json               # MCP server konfigürasyonu
 │   └── deploy.yml                     # Deployment workflow
+├── .env.example                       # Örnek çevre değişkenleri
 ├── smithery.json                      # Smithery deployment config
 ├── smithery.yaml                      # Smithery MCP config
 ├── package.json
@@ -200,7 +218,7 @@ AnimalApp/
 1. **Claude Desktop'ta:**
    - Settings > MCP Servers
    - Add: `https://smithery.ai/server/@Tnhann/animalsapp`
-   - API Key: `bc94d9ad-ca49-4ff5-a3b5-6fe603c32c2e`
+   - API Key: API anahtarınızı .env dosyasından alın
 
 2. **Cursor'da:**
    - Extensions > MCP
@@ -220,9 +238,10 @@ AnimalApp/
 ### Mobil Uygulama
 
 1. `cd mobile-app && npm install` ile bağımlılıkları yükleyin
-2. `npm start` ile Expo dev server'ı başlatın
-3. Expo Go ile QR kodu tarayın
-4. Chat arayüzünde hayvan sorularınızı sorun
+2. `.env.example` dosyasını `.env` olarak kopyalayıp API URL'i güncelleyin
+3. `npm start` ile Expo dev server'ı başlatın
+4. Expo Go ile QR kodu tarayın
+5. Chat arayüzünde hayvan sorularınızı sorun
 
 ### Demo Çalıştırma
 
@@ -253,7 +272,7 @@ curl "http://localhost:3000/health"
 
 **Smithery MCP Server:**
 1. URL: `https://smithery.ai/server/@Tnhann/animalsapp`
-2. API Key: `bc94d9ad-ca49-4ff5-a3b5-6fe603c32c2e`
+2. API Key: `.env` dosyasından alın
 3. Tools: `get_animal_nutrition`, `get_animal_info`
 
 ## 🎯 Desteklenen Hayvanlar
@@ -302,10 +321,10 @@ npm install
 npm start
 ```
 
-3. **Production API URL'ini güncelleyin:**
-```javascript
-// mobile-app/App.js dosyasında
-const API_URL = 'https://smithery.ai/server/@Tnhann/animalsapp';
+3. **API Url'i ayarlayın:**
+```
+# mobile-app/.env dosyasında
+API_URL=https://your-api-url.com
 ```
 
 ## 🌐 Deployment Seçenekleri
@@ -321,11 +340,12 @@ Detaylı deployment talimatları için `DEPLOYMENT.md` dosyasına bakın.
 ## 🔧 Environment Variables
 
 ```env
+# .env dosyası - API anahtarlarınızı buraya ekleyin (Github'a push etmeyin!)
 NODE_ENV=production
 PORT=3000
-SMITHERY_API_KEY=bc94d9ad-ca49-4ff5-a3b5-6fe603c32c2e
-API_NINJAS_KEY=MO4Qd0JdxtRIQ9cj5murew==stsMfqD9V4LHGnuM
-GEMINI_API_KEY=AIzaSyBeJ1ZnxnZkgt6kfBP3wOoIioCBz8QobPk
+SMITHERY_API_KEY=your_smithery_api_key
+API_NINJAS_KEY=your_api_ninjas_key
+GEMINI_API_KEY=your_gemini_api_key
 ```
 
 ## 📊 Monitoring & Analytics
